@@ -34,7 +34,6 @@ fun Home(selectMovie: (String) -> Unit) {
                             label = { Text(stringResource(tab.title).toUpperCase()) },
                             selected = tab == selectedTab,
                             onClick = { setSelectedTab(tab) },
-                            alwaysShowLabels = false,
                             selectedContentColor = MaterialTheme.colors.secondary,
                             unselectedContentColor = LocalContentColor.current,
                             modifier = Modifier.navigationBarsPadding()
@@ -45,9 +44,9 @@ fun Home(selectMovie: (String) -> Unit) {
         ) { innerPadding ->
             val modifier = Modifier.padding(innerPadding)
             when (selectedTab) {
-                HomeTabs.NOW -> Movies(movies, selectMovie, modifier)
-                HomeTabs.PLAN -> Movies(movies, selectMovie, modifier)
-                HomeTabs.FAVORITE -> Movies(movies, selectMovie, modifier)
+                HomeTabs.NOW -> MovieList(movies, selectMovie, modifier)
+                HomeTabs.PLAN -> MovieList(movies, selectMovie, modifier)
+                HomeTabs.FAVORITE -> MovieList(movies, selectMovie, modifier)
             }
         }
     }

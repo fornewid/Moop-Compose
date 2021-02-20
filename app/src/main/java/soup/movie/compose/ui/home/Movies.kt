@@ -1,10 +1,10 @@
 package soup.movie.compose.ui.home
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
@@ -17,23 +17,26 @@ import dev.chrisbanes.accompanist.glide.GlideImage
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 import soup.movie.compose.model.Movie
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun Movies(
+fun MovieList(
     movies: List<Movie>,
     selectMovie: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(3),
+        state = rememberLazyListState(),
         modifier = modifier.statusBarsPadding()
     ) {
         items(movies) { data ->
-            Movie(data, selectMovie)
+            MovieItem(data, selectMovie)
         }
     }
 }
 
 @Composable
-fun Movie(
+fun MovieItem(
     movie: Movie,
     selectMovie: (String) -> Unit,
     modifier: Modifier = Modifier

@@ -8,7 +8,7 @@ fun randomSampleImageUrl(seed: Int = rangeForRandom.random()): String {
     return "https://picsum.photos/seed/$seed/300/300"
 }
 
-val movies = (1..10).map {
+val movies = (1..100).map {
     Movie(
         id = it.toString(),
         name = "name $it",
