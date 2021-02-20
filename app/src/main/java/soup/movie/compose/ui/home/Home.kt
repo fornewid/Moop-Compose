@@ -2,6 +2,7 @@ package soup.movie.compose.ui.home
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -14,8 +15,11 @@ import androidx.compose.ui.unit.dp
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import soup.movie.compose.R
+import soup.movie.compose.model.Movie
 import soup.movie.compose.ui.theme.MoopComposeTheme
 import soup.movie.compose.ui.utils.movies
+import soup.movie.compose.ui.widget.Pager
+import soup.movie.compose.ui.widget.PagerState
 
 @Composable
 fun Home(selectMovie: (String) -> Unit) {
@@ -43,12 +47,43 @@ fun Home(selectMovie: (String) -> Unit) {
             }
         ) { innerPadding ->
             val modifier = Modifier.padding(innerPadding)
-            when (selectedTab) {
-                HomeTabs.NOW -> MovieList(movies, selectMovie, modifier)
-                HomeTabs.PLAN -> MovieList(movies, selectMovie, modifier)
-                HomeTabs.FAVORITE -> MovieList(movies, selectMovie, modifier)
-            }
+            HomePager(
+                items = listOf(movies, movies, movies),
+                currentPage = selectedTab.ordinal,
+                modifier = modifier,
+                onPageSelected = { position -> setSelectedTab(HomeTabs.values()[position]) },
+                selectMovie = selectMovie
+            )
         }
+    }
+}
+
+@Composable
+fun HomePager(
+    items: List<List<Movie>>,
+    currentPage: Int,
+    modifier: Modifier = Modifier,
+    pagerState: PagerState = remember { PagerState() },
+    onPageSelected: (Int) -> Unit,
+    selectMovie: (String) -> Unit,
+) {
+    if (pagerState.currentPage != currentPage) {
+        pagerState.currentPage = currentPage
+    }
+    pagerState.maxPage = (items.size - 1).coerceAtLeast(0)
+
+    Pager(
+        state = pagerState,
+        modifier = modifier,
+        onPageSelected = onPageSelected
+    ) {
+        MovieList(
+            movies = items[page],
+            selectMovie = selectMovie,
+            modifier = Modifier
+                .padding(4.dp)
+                .fillMaxHeight()
+        )
     }
 }
 
