@@ -1,4 +1,4 @@
-package soup.movie.compose.ui.home
+package soup.movie.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import dev.chrisbanes.accompanist.glide.GlideImage
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
-import soup.movie.compose.model.Movie
+import soup.movie.model.Movie
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable

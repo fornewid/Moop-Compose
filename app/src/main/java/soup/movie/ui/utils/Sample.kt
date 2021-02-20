@@ -1,6 +1,6 @@
-package soup.movie.compose.ui.utils
+package soup.movie.ui.utils
 
-import soup.movie.compose.model.Movie
+import soup.movie.model.Movie
 
 private val rangeForRandom = (0..100000)
 

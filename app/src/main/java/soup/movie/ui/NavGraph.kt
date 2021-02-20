@@ -1,13 +1,13 @@
-package soup.movie.compose.ui
+package soup.movie.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
-import soup.movie.compose.ui.MainDestinations.MOVIE_DETAIL_ID_KEY
-import soup.movie.compose.ui.detail.MovieDetails
-import soup.movie.compose.ui.home.Home
+import soup.movie.ui.MainDestinations.MOVIE_DETAIL_ID_KEY
+import soup.movie.ui.detail.MovieDetails
+import soup.movie.ui.home.Home
 
 object MainDestinations {
     const val HOME_ROUTE = "home"

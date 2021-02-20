@@ -1,4 +1,4 @@
-package soup.movie.compose.ui.theme
+package soup.movie.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

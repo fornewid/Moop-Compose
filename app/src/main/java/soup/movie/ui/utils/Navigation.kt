@@ -1,4 +1,4 @@
-package soup.movie.compose.ui.utils
+package soup.movie.ui.utils
 
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.OnBackPressedDispatcher

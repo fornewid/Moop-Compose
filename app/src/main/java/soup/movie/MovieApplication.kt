@@ -1,6 +1,7 @@
-package soup.movie.compose
+package soup.movie
 
 import android.app.Application
+import soup.movie.compose.BuildConfig
 import timber.log.Timber
 
 class MovieApplication : Application() {

@@ -1,4 +1,4 @@
-package soup.movie.compose.ui
+package soup.movie.ui
 
 import android.os.Bundle
 import androidx.activity.compose.setContent

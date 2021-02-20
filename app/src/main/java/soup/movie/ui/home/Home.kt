@@ -1,4 +1,4 @@
-package soup.movie.compose.ui.home
+package soup.movie.ui.home
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -15,11 +15,11 @@ import androidx.compose.ui.unit.dp
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import soup.movie.compose.R
-import soup.movie.compose.model.Movie
-import soup.movie.compose.ui.theme.MoopComposeTheme
-import soup.movie.compose.ui.utils.movies
-import soup.movie.compose.ui.widget.Pager
-import soup.movie.compose.ui.widget.PagerState
+import soup.movie.model.Movie
+import soup.movie.ui.theme.MoopComposeTheme
+import soup.movie.ui.utils.movies
+import soup.movie.ui.widget.Pager
+import soup.movie.ui.widget.PagerState
 
 @Composable
 fun Home(selectMovie: (String) -> Unit) {

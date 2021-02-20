@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package soup.movie.compose.ui.widget
+package soup.movie.ui.widget
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationEndReason
