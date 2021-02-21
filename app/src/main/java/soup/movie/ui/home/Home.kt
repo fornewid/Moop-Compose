@@ -2,18 +2,25 @@ package soup.movie.ui.home
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
+import dev.chrisbanes.accompanist.insets.statusBarsPadding
 import soup.movie.compose.R
 import soup.movie.model.Movie
 import soup.movie.ui.theme.MoopComposeTheme
@@ -26,8 +33,68 @@ fun Home(selectMovie: (String) -> Unit) {
     MoopComposeTheme {
         val (selectedTab, setSelectedTab) = remember { mutableStateOf(HomeTabs.NOW) }
         val tabs = HomeTabs.values()
+        val state = rememberScaffoldState()
         Scaffold(
+            scaffoldState = state,
             backgroundColor = MaterialTheme.colors.primarySurface,
+            topBar = {
+                TopAppBar(
+                    title = { Text(text = stringResource(selectedTab.title).toUpperCase()) },
+                    modifier = Modifier.statusBarsPadding(),
+                    navigationIcon = {
+                        Image(
+                            Icons.Default.Menu,
+                            contentDescription = null,
+                            contentScale = ContentScale.Inside,
+                            colorFilter = ColorFilter.tint(LocalContentColor.current.copy(alpha = LocalContentAlpha.current)),
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clickable(onClick = {
+                                    state.drawerState.open()
+                                })
+                        )
+                    }
+                )
+            },
+            drawerContent = {
+                DrawerMenu(
+                    text = "Search movie",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .clickable(onClick = {
+                            state.drawerState.close {
+                                //TODO:
+                                selectMovie(movies.first().id)
+                            }
+                        })
+                )
+                DrawerMenu(
+                    text = "Theater Map",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .clickable(onClick = {
+                            state.drawerState.close {
+                                //TODO:
+                                selectMovie(movies.first().id)
+                            }
+                        })
+                )
+                Divider()
+                DrawerMenu(
+                    text = "Settings",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .clickable(onClick = {
+                            state.drawerState.close {
+                                //TODO:
+                                selectMovie(movies.first().id)
+                            }
+                        })
+                )
+            },
             bottomBar = {
                 BottomNavigation(
                     Modifier.navigationBarsHeight(additional = 56.dp)
@@ -55,6 +122,19 @@ fun Home(selectMovie: (String) -> Unit) {
                 selectMovie = selectMovie
             )
         }
+    }
+}
+
+@Composable
+fun DrawerMenu(
+    text: String,
+    modifier: Modifier = Modifier
+) {
+    Box(modifier = modifier) {
+        Text(
+            text = text,
+            modifier = Modifier.align(Alignment.Center)
+        )
     }
 }
 

@@ -8,7 +8,8 @@ import androidx.core.view.WindowCompat
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        //TODO: edge-to-edge
+        //WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             MoopApp(onBackPressedDispatcher)
         }
