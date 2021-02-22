@@ -1,7 +1,7 @@
 package soup.movie.ui
 
+import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
@@ -28,19 +28,19 @@ object MainDestinations {
 }
 
 @Composable
-fun NavGraph(startDestination: String = MainDestinations.HOME_ROUTE) {
-    val navController = rememberNavController()
-    val actions = remember(navController) { MainActions(navController) }
+fun NavGraph(
+    navController: NavHostController,
+    actions: MainActions,
+    startDestination: String = MainDestinations.HOME_ROUTE
+) {
     NavHost(
         navController = navController,
         startDestination = startDestination
     ) {
         composable(MainDestinations.HOME_ROUTE) {
             Home(
-                selectMovie = actions.selectMovie,
-                goToSearch = actions.goToSearch,
-                goToTheaterMap = actions.goToTheaterMap,
-                goToSettings = actions.goToSettings
+                openDrawer = actions.openDrawer,
+                selectMovie = actions.selectMovie
             )
         }
         composable(
@@ -81,7 +81,10 @@ fun NavGraph(startDestination: String = MainDestinations.HOME_ROUTE) {
     }
 }
 
-class MainActions(navController: NavHostController) {
+class MainActions(navController: NavHostController, scaffoldState: ScaffoldState) {
+    val openDrawer: () -> Unit = {
+        scaffoldState.drawerState.open()
+    }
     val upPress: () -> Unit = {
         navController.navigateUp()
     }

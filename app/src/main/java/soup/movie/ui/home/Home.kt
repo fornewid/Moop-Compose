@@ -3,15 +3,17 @@ package soup.movie.ui.home
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -23,117 +25,63 @@ import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 import soup.movie.compose.R
 import soup.movie.model.Movie
-import soup.movie.ui.theme.MoopComposeTheme
 import soup.movie.ui.utils.movies
 import soup.movie.ui.widget.Pager
 import soup.movie.ui.widget.PagerState
 
 @Composable
 fun Home(
-    selectMovie: (String) -> Unit,
-    goToSearch: () -> Unit,
-    goToTheaterMap: () -> Unit,
-    goToSettings: () -> Unit
+    openDrawer: () -> Unit,
+    selectMovie: (String) -> Unit
 ) {
-    MoopComposeTheme {
-        val (selectedTab, setSelectedTab) = remember { mutableStateOf(HomeTabs.NOW) }
-        val tabs = HomeTabs.values()
-        val state = rememberScaffoldState()
-        Scaffold(
-            scaffoldState = state,
-            backgroundColor = MaterialTheme.colors.primarySurface,
-            topBar = {
-                TopAppBar(
-                    title = { Text(text = stringResource(selectedTab.title).toUpperCase()) },
-                    modifier = Modifier.statusBarsPadding(),
-                    navigationIcon = {
-                        Image(
-                            Icons.Default.Menu,
-                            contentDescription = null,
-                            contentScale = ContentScale.Inside,
-                            colorFilter = ColorFilter.tint(LocalContentColor.current.copy(alpha = LocalContentAlpha.current)),
-                            modifier = Modifier
-                                .fillMaxSize()
-                                .clickable(onClick = {
-                                    state.drawerState.open()
-                                })
-                        )
-                    }
-                )
-            },
-            drawerContent = {
-                DrawerMenu(
-                    text = "Search movie",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .clickable(onClick = {
-                            state.drawerState.close {
-                                goToSearch()
-                            }
-                        })
-                )
-                DrawerMenu(
-                    text = "Theater Map",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .clickable(onClick = {
-                            state.drawerState.close {
-                                goToTheaterMap()
-                            }
-                        })
-                )
-                Divider()
-                DrawerMenu(
-                    text = "Settings",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .clickable(onClick = {
-                            state.drawerState.close { goToSettings() }
-                        })
-                )
-            },
-            bottomBar = {
-                BottomNavigation(
-                    Modifier.navigationBarsHeight(additional = 56.dp)
-                ) {
-                    tabs.forEach { tab ->
-                        BottomNavigationItem(
-                            icon = { Icon(painterResource(tab.icon), contentDescription = null) },
-                            label = { Text(stringResource(tab.title).toUpperCase()) },
-                            selected = tab == selectedTab,
-                            onClick = { setSelectedTab(tab) },
-                            selectedContentColor = MaterialTheme.colors.secondary,
-                            unselectedContentColor = LocalContentColor.current,
-                            modifier = Modifier.navigationBarsPadding()
-                        )
-                    }
+    val (selectedTab, setSelectedTab) = remember { mutableStateOf(HomeTabs.NOW) }
+    val tabs = HomeTabs.values()
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(text = stringResource(selectedTab.title).toUpperCase())
+                },
+                modifier = Modifier.statusBarsPadding(),
+                navigationIcon = {
+                    Image(
+                        Icons.Default.Menu,
+                        contentDescription = null,
+                        contentScale = ContentScale.Inside,
+                        colorFilter = ColorFilter.tint(LocalContentColor.current.copy(alpha = LocalContentAlpha.current)),
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .clickable(onClick = {
+                                openDrawer()
+                            })
+                    )
+                }
+            )
+        },
+        bottomBar = {
+            BottomNavigation(
+                Modifier.navigationBarsHeight(additional = 56.dp)
+            ) {
+                tabs.forEach { tab ->
+                    BottomNavigationItem(
+                        icon = { Icon(painterResource(tab.icon), contentDescription = null) },
+                        label = { Text(stringResource(tab.title).toUpperCase()) },
+                        selected = tab == selectedTab,
+                        onClick = { setSelectedTab(tab) },
+                        selectedContentColor = MaterialTheme.colors.secondary,
+                        unselectedContentColor = LocalContentColor.current,
+                        modifier = Modifier.navigationBarsPadding()
+                    )
                 }
             }
-        ) { innerPadding ->
-            val modifier = Modifier.padding(innerPadding)
-            HomePager(
-                items = listOf(movies, movies, movies),
-                currentPage = selectedTab.ordinal,
-                modifier = modifier,
-                onPageSelected = { position -> setSelectedTab(HomeTabs.values()[position]) },
-                selectMovie = selectMovie
-            )
         }
-    }
-}
-
-@Composable
-fun DrawerMenu(
-    text: String,
-    modifier: Modifier = Modifier
-) {
-    Box(modifier = modifier) {
-        Text(
-            text = text,
-            modifier = Modifier.align(Alignment.Center)
+    ) { innerPadding ->
+        HomePager(
+            items = listOf(movies, movies, movies),
+            currentPage = selectedTab.ordinal,
+            modifier = Modifier.padding(innerPadding),
+            onPageSelected = { position -> setSelectedTab(HomeTabs.values()[position]) },
+            selectMovie = selectMovie
         )
     }
 }
@@ -154,7 +102,7 @@ fun HomePager(
 
     Pager(
         state = pagerState,
-        modifier = modifier,
+        modifier = modifier.background(color = MaterialTheme.colors.primarySurface),
         onPageSelected = onPageSelected
     ) {
         MovieList(
