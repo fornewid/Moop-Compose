@@ -29,7 +29,12 @@ import soup.movie.ui.widget.Pager
 import soup.movie.ui.widget.PagerState
 
 @Composable
-fun Home(selectMovie: (String) -> Unit) {
+fun Home(
+    selectMovie: (String) -> Unit,
+    goToSearch: () -> Unit,
+    goToTheaterMap: () -> Unit,
+    goToSettings: () -> Unit
+) {
     MoopComposeTheme {
         val (selectedTab, setSelectedTab) = remember { mutableStateOf(HomeTabs.NOW) }
         val tabs = HomeTabs.values()
@@ -64,8 +69,7 @@ fun Home(selectMovie: (String) -> Unit) {
                         .height(48.dp)
                         .clickable(onClick = {
                             state.drawerState.close {
-                                //TODO:
-                                selectMovie(movies.first().id)
+                                goToSearch()
                             }
                         })
                 )
@@ -76,8 +80,7 @@ fun Home(selectMovie: (String) -> Unit) {
                         .height(48.dp)
                         .clickable(onClick = {
                             state.drawerState.close {
-                                //TODO:
-                                selectMovie(movies.first().id)
+                                goToTheaterMap()
                             }
                         })
                 )
@@ -88,10 +91,7 @@ fun Home(selectMovie: (String) -> Unit) {
                         .fillMaxWidth()
                         .height(48.dp)
                         .clickable(onClick = {
-                            state.drawerState.close {
-                                //TODO:
-                                selectMovie(movies.first().id)
-                            }
+                            state.drawerState.close { goToSettings() }
                         })
                 )
             },
