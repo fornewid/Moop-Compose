@@ -3,7 +3,7 @@ package soup.movie.ui
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.Providers
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.view.WindowCompat
 import dev.chrisbanes.accompanist.insets.ProvideWindowInsets
 import soup.movie.ui.theme.MoopComposeTheme
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         //TODO: edge-to-edge
         //WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
-            Providers(LocalBackDispatcher provides onBackPressedDispatcher) {
+            CompositionLocalProvider(LocalBackDispatcher provides onBackPressedDispatcher) {
                 ProvideWindowInsets {
                     MoopComposeTheme {
                         Main()

@@ -10,10 +10,12 @@ import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.rememberNavController
+import kotlinx.coroutines.launch
 
 @Composable
 fun Main() {
@@ -22,6 +24,7 @@ fun Main() {
     val actions = remember(navController, scaffoldState) {
         MainActions(navController, scaffoldState)
     }
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         scaffoldState = scaffoldState,
         drawerContent = {
@@ -30,22 +33,24 @@ fun Main() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
-                    .clickable(onClick = {
-                        scaffoldState.drawerState.close {
+                    .clickable {
+                        coroutineScope.launch {
+                            scaffoldState.drawerState.close()
                             actions.goToSearch()
                         }
-                    })
+                    }
             )
             DrawerMenu(
                 text = "Theater Map",
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
-                    .clickable(onClick = {
-                        scaffoldState.drawerState.close {
+                    .clickable {
+                        coroutineScope.launch {
+                            scaffoldState.drawerState.close()
                             actions.goToTheaterMap()
                         }
-                    })
+                    }
             )
             Divider()
             DrawerMenu(
@@ -53,11 +58,12 @@ fun Main() {
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
-                    .clickable(onClick = {
-                        scaffoldState.drawerState.close {
+                    .clickable {
+                        coroutineScope.launch {
+                            scaffoldState.drawerState.close()
                             actions.goToSettings()
                         }
-                    })
+                    }
             )
         }
     ) {

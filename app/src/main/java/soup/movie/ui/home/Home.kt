@@ -14,6 +14,7 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import dev.chrisbanes.accompanist.insets.navigationBarsHeight
 import dev.chrisbanes.accompanist.insets.navigationBarsPadding
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
+import kotlinx.coroutines.launch
 import soup.movie.compose.R
 import soup.movie.model.Movie
 import soup.movie.ui.utils.movies
@@ -31,11 +33,12 @@ import soup.movie.ui.widget.PagerState
 
 @Composable
 fun Home(
-    openDrawer: () -> Unit,
+    openDrawer: suspend () -> Unit,
     selectMovie: (String) -> Unit
 ) {
     val (selectedTab, setSelectedTab) = remember { mutableStateOf(HomeTabs.NOW) }
     val tabs = HomeTabs.values()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
             TopAppBar(
@@ -51,9 +54,11 @@ fun Home(
                         colorFilter = ColorFilter.tint(LocalContentColor.current.copy(alpha = LocalContentAlpha.current)),
                         modifier = Modifier
                             .fillMaxSize()
-                            .clickable(onClick = {
-                                openDrawer()
-                            })
+                            .clickable {
+                                coroutineScope.launch {
+                                    openDrawer()
+                                }
+                            }
                     )
                 }
             )

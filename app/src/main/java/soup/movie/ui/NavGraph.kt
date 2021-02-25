@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import soup.movie.compose.R
 import soup.movie.ui.MainDestinations.MOVIE_DETAIL_ID_KEY
 import soup.movie.ui.detail.MovieDetails
 import soup.movie.ui.home.Home
@@ -82,7 +83,7 @@ fun NavGraph(
 }
 
 class MainActions(navController: NavHostController, scaffoldState: ScaffoldState) {
-    val openDrawer: () -> Unit = {
+    val openDrawer: suspend () -> Unit = {
         scaffoldState.drawerState.open()
     }
     val upPress: () -> Unit = {
@@ -97,8 +98,8 @@ class MainActions(navController: NavHostController, scaffoldState: ScaffoldState
                 inclusive = false
             }
             anim {
-                enter = R.anim.fragment_open_enter
-                exit = R.anim.fragment_open_exit
+                enter = R.animator.fragment_open_enter
+                exit = R.animator.fragment_open_exit
             }
         }
     }
@@ -108,8 +109,8 @@ class MainActions(navController: NavHostController, scaffoldState: ScaffoldState
                 inclusive = false
             }
             anim {
-                enter = R.anim.fragment_open_enter
-                exit = R.anim.fragment_open_exit
+                enter = R.animator.fragment_open_enter
+                exit = R.animator.fragment_open_exit
             }
         }
     }
@@ -119,32 +120,32 @@ class MainActions(navController: NavHostController, scaffoldState: ScaffoldState
                 inclusive = false
             }
             anim {
-                enter = R.anim.fragment_open_enter
-                exit = R.anim.fragment_open_exit
+                enter = R.animator.fragment_open_enter
+                exit = R.animator.fragment_open_exit
             }
         }
     }
     val goToThemeSettings: () -> Unit = {
         navController.navigate(MainDestinations.THEME_SETTINGS_ROUTE) {
             anim {
-                enter = R.anim.fragment_open_enter
-                exit = R.anim.fragment_open_exit
+                enter = R.animator.fragment_open_enter
+                exit = R.animator.fragment_open_exit
             }
         }
     }
     val goToTheaterSort: () -> Unit = {
         navController.navigate(MainDestinations.THEATER_SORT_ROUTE) {
             anim {
-                enter = R.anim.fragment_open_enter
-                exit = R.anim.fragment_open_exit
+                enter = R.animator.fragment_open_enter
+                exit = R.animator.fragment_open_exit
             }
         }
     }
     val goToTheaterEdit: () -> Unit = {
         navController.navigate(MainDestinations.THEATER_EDIT_ROUTE) {
             anim {
-                enter = R.anim.fragment_open_enter
-                exit = R.anim.fragment_open_exit
+                enter = R.animator.fragment_open_enter
+                exit = R.animator.fragment_open_exit
             }
         }
     }
