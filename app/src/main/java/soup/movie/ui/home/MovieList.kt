@@ -2,17 +2,20 @@ package soup.movie.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.*
+import androidx.compose.foundation.lazy.GridCells
+import androidx.compose.foundation.lazy.LazyVerticalGrid
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import dev.chrisbanes.accompanist.glide.GlideImage
 import dev.chrisbanes.accompanist.insets.statusBarsPadding
 import soup.movie.model.Movie
@@ -26,8 +29,9 @@ fun MovieList(
 ) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(3),
+        modifier = modifier.statusBarsPadding(),
         state = rememberLazyListState(),
-        modifier = modifier.statusBarsPadding()
+        contentPadding = PaddingValues(all = 4.dp)
     ) {
         items(movies) { data ->
             MovieItem(data, selectMovie)
@@ -43,36 +47,16 @@ fun MovieItem(
 ) {
     Surface(
         modifier = modifier.padding(4.dp),
-        color = MaterialTheme.colors.surface,
         shape = MaterialTheme.shapes.medium
     ) {
-        ConstraintLayout(
-            modifier = Modifier.clickable(
-                onClick = { selectMovie(movie.id) }
-            )
-        ) {
-            val (image, name) = createRefs()
-            GlideImage(
-                data = movie.imageUrl,
-                contentDescription = null,
-                modifier = Modifier
-                    .aspectRatio(4f / 3f)
-                    .constrainAs(image) {
-                        centerHorizontallyTo(parent)
-                        top.linkTo(parent.top)
-                    }
-            )
-            Text(
-                text = movie.name,
-                style = MaterialTheme.typography.subtitle1,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .padding(horizontal = 16.dp)
-                    .constrainAs(name) {
-                        centerHorizontallyTo(parent)
-                        top.linkTo(image.bottom)
-                    }
-            )
-        }
+        GlideImage(
+            data = movie.imageUrl,
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .clickable { selectMovie(movie.id) }
+                .aspectRatio(27 / 40f)
+                .fillMaxSize()
+        )
     }
 }

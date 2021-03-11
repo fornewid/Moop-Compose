@@ -113,9 +113,7 @@ fun HomePager(
         MovieList(
             movies = items[page],
             selectMovie = selectMovie,
-            modifier = Modifier
-                .padding(4.dp)
-                .fillMaxHeight()
+            modifier = Modifier.fillMaxHeight()
         )
     }
 }
