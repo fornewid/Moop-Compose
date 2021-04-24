@@ -64,10 +64,10 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glide_version"
     kapt "com.github.bumptech.glide:compiler:$glide_version"
 
-    def accompanist_version = "0.6.2"
-    implementation "dev.chrisbanes.accompanist:accompanist-appcompat-theme:$accompanist_version"
-    implementation "dev.chrisbanes.accompanist:accompanist-glide:$accompanist_version"
-    implementation "dev.chrisbanes.accompanist:accompanist-insets:$accompanist_version"
+    def accompanist_version = "0.8.1"
+    implementation "com.google.accompanist:accompanist-appcompat-theme:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-glide:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
 
     implementation "com.jakewharton.timber:timber:4.7.1"
     testImplementation "junit:junit:4.13.2"

@@ -16,8 +16,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
-import dev.chrisbanes.accompanist.glide.GlideImage
-import dev.chrisbanes.accompanist.insets.statusBarsPadding
+import com.google.accompanist.glide.GlideImage
+import com.google.accompanist.insets.statusBarsPadding
 import soup.movie.model.Movie
 
 @OptIn(ExperimentalFoundationApi::class)
