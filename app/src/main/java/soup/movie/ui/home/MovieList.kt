@@ -1,6 +1,7 @@
 package soup.movie.ui.home
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -17,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.glide.GlideImage
+import com.google.accompanist.glide.rememberGlidePainter
 import com.google.accompanist.insets.statusBarsPadding
 import soup.movie.model.Movie
 
@@ -49,14 +51,18 @@ fun MovieItem(
         modifier = modifier.padding(4.dp),
         shape = MaterialTheme.shapes.medium
     ) {
-        GlideImage(
-            data = movie.imageUrl,
+        Image(
+            painter = rememberGlidePainter(
+                request = movie.imageUrl,
+                fadeIn = true,
+                fadeInDurationMs = 300
+            ),
             contentDescription = null,
-            contentScale = ContentScale.Crop,
             modifier = Modifier
                 .clickable { selectMovie(movie.id) }
                 .aspectRatio(27 / 40f)
-                .fillMaxSize()
+                .fillMaxSize(),
+            contentScale = ContentScale.Crop,
         )
     }
 }
