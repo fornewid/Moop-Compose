@@ -5,14 +5,21 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.*
+import androidx.compose.material.BottomNavigation
+import androidx.compose.material.BottomNavigationItem
+import androidx.compose.material.Icon
+import androidx.compose.material.LocalContentAlpha
+import androidx.compose.material.LocalContentColor
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
+import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
@@ -24,20 +31,22 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.insets.navigationBarsHeight
 import com.google.accompanist.insets.navigationBarsPadding
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
+import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import soup.movie.compose.R
-import soup.movie.model.Movie
 import soup.movie.ui.utils.movies
-import soup.movie.ui.widget.Pager
-import soup.movie.ui.widget.PagerState
 
+@OptIn(ExperimentalPagerApi::class)
 @Composable
 fun Home(
     openDrawer: suspend () -> Unit,
     selectMovie: (String) -> Unit
 ) {
-    val (selectedTab, setSelectedTab) = remember { mutableStateOf(HomeTabs.NOW) }
     val tabs = HomeTabs.values()
+    val pagerState = rememberPagerState(pageCount = tabs.size)
+    val selectedTab = tabs[pagerState.currentPage]
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
         topBar = {
@@ -72,7 +81,11 @@ fun Home(
                         icon = { Icon(painterResource(tab.icon), contentDescription = null) },
                         label = { Text(stringResource(tab.title).toUpperCase()) },
                         selected = tab == selectedTab,
-                        onClick = { setSelectedTab(tab) },
+                        onClick = {
+                            coroutineScope.launch {
+                                pagerState.animateScrollToPage(tab.ordinal)
+                            }
+                        },
                         selectedContentColor = MaterialTheme.colors.secondary,
                         unselectedContentColor = LocalContentColor.current,
                         modifier = Modifier.navigationBarsPadding()
@@ -81,40 +94,20 @@ fun Home(
             }
         }
     ) { innerPadding ->
-        HomePager(
-            items = listOf(movies, movies, movies),
-            currentPage = selectedTab.ordinal,
-            modifier = Modifier.padding(innerPadding),
-            onPageSelected = { position -> setSelectedTab(HomeTabs.values()[position]) },
-            selectMovie = selectMovie
-        )
-    }
-}
-
-@Composable
-fun HomePager(
-    items: List<List<Movie>>,
-    currentPage: Int,
-    modifier: Modifier = Modifier,
-    pagerState: PagerState = remember { PagerState() },
-    onPageSelected: (Int) -> Unit,
-    selectMovie: (String) -> Unit,
-) {
-    if (pagerState.currentPage != currentPage) {
-        pagerState.currentPage = currentPage
-    }
-    pagerState.maxPage = (items.size - 1).coerceAtLeast(0)
-
-    Pager(
-        state = pagerState,
-        modifier = modifier.background(color = MaterialTheme.colors.primarySurface),
-        onPageSelected = onPageSelected
-    ) {
-        MovieList(
-            movies = items[page],
-            selectMovie = selectMovie,
-            modifier = Modifier.fillMaxHeight()
-        )
+        val items = remember { listOf(movies, movies, movies) }
+        HorizontalPager(
+            state = pagerState,
+            offscreenLimit = items.size,
+            modifier = Modifier
+                .padding(innerPadding)
+                .background(color = MaterialTheme.colors.primarySurface)
+        ) { page ->
+            MovieList(
+                movies = items[page],
+                selectMovie = selectMovie,
+                modifier = Modifier.fillMaxSize()
+            )
+        }
     }
 }
 
