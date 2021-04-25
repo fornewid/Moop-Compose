@@ -69,6 +69,7 @@ dependencies {
     implementation "com.google.accompanist:accompanist-glide:$accompanist_version"
     implementation "com.google.accompanist:accompanist-insets:$accompanist_version"
     implementation "com.google.accompanist:accompanist-pager:$accompanist_version"
+    implementation "com.google.accompanist:accompanist-swiperefresh:$accompanist_version"
 
     implementation "com.jakewharton.timber:timber:4.7.1"
     testImplementation "junit:junit:4.13.2"
