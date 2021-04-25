@@ -14,11 +14,19 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.glide.rememberGlidePainter
 import com.google.accompanist.insets.statusBarsPadding
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+import kotlinx.coroutines.delay
 import soup.movie.model.Movie
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -28,14 +36,27 @@ fun MovieList(
     selectMovie: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyVerticalGrid(
-        cells = GridCells.Fixed(3),
-        modifier = modifier.statusBarsPadding(),
-        state = rememberLazyListState(),
-        contentPadding = PaddingValues(all = 4.dp)
+    var refreshing by remember { mutableStateOf(false) }
+    LaunchedEffect(refreshing) {
+        if (refreshing) {
+            delay(2000)
+            refreshing = false
+        }
+    }
+
+    SwipeRefresh(
+        state = rememberSwipeRefreshState(isRefreshing = refreshing),
+        onRefresh = { refreshing = true },
     ) {
-        items(movies) { data ->
-            MovieItem(data, selectMovie)
+        LazyVerticalGrid(
+            cells = GridCells.Fixed(3),
+            modifier = modifier.statusBarsPadding(),
+            state = rememberLazyListState(),
+            contentPadding = PaddingValues(all = 4.dp)
+        ) {
+            items(movies) { data ->
+                MovieItem(data, selectMovie)
+            }
         }
     }
 }
