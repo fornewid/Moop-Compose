@@ -2,11 +2,17 @@ package soup.movie.ui.home.plan
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
+import androidx.lifecycle.viewmodel.compose.viewModel
 import soup.movie.ui.home.HomeContents
-import soup.movie.ui.utils.planMovies
 
 @Composable
-fun HomePlan(selectMovie: (String) -> Unit) {
-    HomeContents(planMovies, selectMovie, Modifier.fillMaxSize())
+fun HomePlan(
+    selectMovie: (String) -> Unit,
+    viewModel: HomePlanViewModel = viewModel()
+) {
+    val movies by viewModel.movies.observeAsState(emptyList())
+    HomeContents(movies, selectMovie, Modifier.fillMaxSize())
 }
