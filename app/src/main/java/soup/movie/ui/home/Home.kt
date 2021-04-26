@@ -20,7 +20,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.primarySurface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -36,7 +35,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import soup.movie.compose.R
-import soup.movie.ui.utils.movies
+import soup.movie.ui.home.favorite.HomeFavorite
+import soup.movie.ui.home.now.HomeNow
+import soup.movie.ui.home.plan.HomePlan
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -94,19 +95,18 @@ fun Home(
             }
         }
     ) { innerPadding ->
-        val items = remember { listOf(movies, movies, movies) }
         HorizontalPager(
             state = pagerState,
-            offscreenLimit = items.size,
+            offscreenLimit = tabs.size,
             modifier = Modifier
                 .padding(innerPadding)
                 .background(color = MaterialTheme.colors.primarySurface)
         ) { page ->
-            MovieList(
-                movies = items[page],
-                selectMovie = selectMovie,
-                modifier = Modifier.fillMaxSize()
-            )
+            when (tabs[page]) {
+                HomeTabs.NOW -> HomeNow(selectMovie)
+                HomeTabs.PLAN -> HomePlan(selectMovie)
+                HomeTabs.FAVORITE -> HomeFavorite(selectMovie)
+            }
         }
     }
 }
