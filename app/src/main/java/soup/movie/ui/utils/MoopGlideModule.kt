@@ -18,21 +18,29 @@ import com.bumptech.glide.request.RequestOptions
 class MoopGlideModule : AppGlideModule() {
 
     override fun applyOptions(context: Context, builder: GlideBuilder) {
-        builder.setDefaultRequestOptions(RequestOptions()
-            // Prefer higher quality images unless we're on a low RAM device
-            .format(if (context.isLowRamDevice()) PREFER_RGB_565 else PREFER_ARGB_8888)
-            // Disable hardware bitmaps as they don't play nicely with Palette
-            .disallowHardwareConfig())
-        builder.setMemoryCache(LruResourceCache(
-            MemorySizeCalculator.Builder(context)
-                .setMemoryCacheScreens(2f)
-                .build()
-                .memoryCacheSize.toLong()))
-        builder.setBitmapPool(LruBitmapPool(
-            MemorySizeCalculator.Builder(context)
-                .setBitmapPoolScreens(3f)
-                .build()
-                .bitmapPoolSize.toLong()))
+        builder.setDefaultRequestOptions(
+            RequestOptions()
+                // Prefer higher quality images unless we're on a low RAM device
+                .format(if (context.isLowRamDevice()) PREFER_RGB_565 else PREFER_ARGB_8888)
+                // Disable hardware bitmaps as they don't play nicely with Palette
+                .disallowHardwareConfig()
+        )
+        builder.setMemoryCache(
+            LruResourceCache(
+                MemorySizeCalculator.Builder(context)
+                    .setMemoryCacheScreens(2f)
+                    .build()
+                    .memoryCacheSize.toLong()
+            )
+        )
+        builder.setBitmapPool(
+            LruBitmapPool(
+                MemorySizeCalculator.Builder(context)
+                    .setBitmapPoolScreens(3f)
+                    .build()
+                    .bitmapPoolSize.toLong()
+            )
+        )
         builder.setDiskCache(InternalCacheDiskCacheFactory(context))
     }
 
