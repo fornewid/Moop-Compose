@@ -4,7 +4,11 @@ import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
+import androidx.navigation.compose.navigate
+import androidx.navigation.compose.popUpTo
 import soup.movie.compose.R
 import soup.movie.ui.MainDestinations.MOVIE_DETAIL_ID_KEY
 import soup.movie.ui.detail.MovieDetails
