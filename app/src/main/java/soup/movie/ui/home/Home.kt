@@ -46,7 +46,7 @@ fun Home(
     selectMovie: (String) -> Unit
 ) {
     val tabs = HomeTabs.values()
-    val pagerState = rememberPagerState(pageCount = tabs.size)
+    val pagerState = rememberPagerState(pageCount = tabs.size, initialOffscreenLimit = tabs.size)
     val selectedTab = tabs[pagerState.currentPage]
     val coroutineScope = rememberCoroutineScope()
     Scaffold(
@@ -97,7 +97,6 @@ fun Home(
     ) { innerPadding ->
         HorizontalPager(
             state = pagerState,
-            offscreenLimit = tabs.size,
             modifier = Modifier
                 .padding(innerPadding)
                 .background(color = MaterialTheme.colors.primarySurface)
